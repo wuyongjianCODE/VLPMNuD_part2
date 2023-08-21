@@ -448,21 +448,21 @@ if __name__ == "__main__":
     # prepare_for_MONU_GT_detection_new('val')
     # prepare_for_MONU_GT_detection_new_gliptrain_aware('train')
     # prepare_for_MONU_GT_detection_new_gliptrain_aware_SLICspecific('train')
-    # preprocess_glip_result('0.193.json',visual=True)
+    preprocess_glip_result('0.193.json',visual=True)
     # os.system('mv YOLOX_outputs/yolox_s YOLOX_outputs/yolox_s_many4n')
-    # print('first of all, we check AP of glip/TS trainset:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
-    # from pycocotools.coco import COCO
-    # from pycocotools.cocoeval import COCOeval
-    # cocoDt = COCO("/data1/wyj/M/datasets/COCO2/annotations/instances_train2017.json")
-    # cocoGt = COCO("/data1/wyj/M/datasets/COCO2backup/annotations/instances_train2017.json")
-    # print('score seted as 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    # for ann in cocoDt.dataset['annotations']:
-    #     ann['score']=1
-    # cocoEval = COCOeval(cocoGt, cocoDt, 'bbox')
-    # cocoEval.evaluate()
-    # cocoEval.accumulate()
-    # cocoEval.summarize()
-    # print('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    print('first of all, we check AP of glip/TS trainset:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
+    from pycocotools.coco import COCO
+    from pycocotools.cocoeval import COCOeval
+    cocoDt = COCO("/data1/wyj/M/datasets/COCO2/annotations/instances_train2017.json")
+    cocoGt = COCO("/data1/wyj/M/datasets/COCO2backup/annotations/instances_train2017.json")
+    print('score seted as 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    for ann in cocoDt.dataset['annotations']:
+        ann['score']=1
+    cocoEval = COCOeval(cocoGt, cocoDt, 'bbox')
+    cocoEval.evaluate()
+    cocoEval.accumulate()
+    cocoEval.summarize()
+    print('::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
     configure_module()
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
