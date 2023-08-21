@@ -164,9 +164,9 @@ def main(exp, args, num_gpu):
     print('first of all, we check AP of glip trainset(or the last ):::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::')
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
-    cocoDt = COCO("/data1/wyj/M/datasets/COCO2/annotations/instances_train2017.json")
+    cocoDt = COCO("datasets/COCO/annotations/instances_train2017.json")
     # cocoDt = COCO("/data1/wyj/M/datasets/COCO2/annotations/instances_train2017_0085.json")
-    cocoGt = COCO("/data1/wyj/M/datasets/COCO2backup/annotations/instances_train2017.json")
+    cocoGt = COCO("datasets/COCO/annotations/instances_train2017_gt.json")
     for ann in cocoDt.dataset['annotations']:
         if not 'score' in ann:
             ann['score']=0.9
@@ -260,8 +260,8 @@ def main(exp, args, num_gpu):
 
 if __name__ == "__main__":
     import os
-    os.system('rm datasets/COCO')
-    os.system('ln -s /data1/wyj/M/datasets/COCOtrain_as_val datasets/COCO')
+    # os.system('rm datasets/COCO')
+    # os.system('ln -s /data1/wyj/M/datasets/COCOtrain_as_val datasets/COCO')
     configure_module()
     args = make_parser().parse_args()
     exp = get_exp(args.exp_file, args.name)
@@ -283,6 +283,6 @@ if __name__ == "__main__":
         dist_url=dist_url,
         args=(exp, args, num_gpu),
     )
-    os.system('rm datasets/COCO')
-    os.system('ln -s /data1/wyj/M/datasets/COCO2 datasets/COCO')
+    # os.system('rm datasets/COCO')
+    # os.system('ln -s /data1/wyj/M/datasets/COCO2 datasets/COCO')
     os.system('cp YOLOX_outputs/yolox_s/train.json datasets/COCO/annotations/instances_train2017.json')
