@@ -358,31 +358,6 @@ class COCOEvaluator:
             if self.per_class_AR:
                 AR_table = per_class_AR_table(cocoEval, class_names=cat_names)
                 info += "per class AR:\n" + AR_table + "\n"
-            coco_eval = COCOeval(cocoGt, cocoDt, "bbox")
-            treshold_index = 1
-            custom_areaRng = [[0, 10000000000.0]]
-            coco_eval.params.areaRng = custom_areaRng
-            coco_eval.evaluate()
-            n_ign = 0
-            tp = 0
-            fp = 0
-            n_gt = 0
-
-            for ix, img in enumerate(coco_eval.evalImgs):
-                image_evaluation = coco_eval.evalImgs[ix]
-                # print("image id: {} ".format(image_evaluation["image_id"]))
-                ign = image_evaluation["dtIgnore"][treshold_index]  # detections from the model
-                mask = ~ign  # here we consider the detection that we can not ignore, so basically all the detections done
-                n_ignored = ign.sum()  # detections number
-                n_ign += n_ignored
-                tp += (image_evaluation["dtMatches"][treshold_index][mask] > 0).sum()
-                fp += (image_evaluation["dtMatches"][treshold_index][mask] == 0).sum()
-                n_gt += len(image_evaluation["gtIds"]) - image_evaluation["gtIgnore"].astype(int).sum()
-
-            recall = tp / n_gt
-            precision = tp / (tp + fp)
-            f1 = 2 * precision * recall / (precision + recall)
-            print("precision: {}, recall:{}, and f1 score {}".format(np.mean(pres), recall, f1))
             return cocoEval.stats[0], cocoEval.stats[1], info
         else:
             return 0, 0, info
